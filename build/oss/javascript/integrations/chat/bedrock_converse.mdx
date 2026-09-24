@@ -1,6 +1,14 @@
 ---
-title: "ChatBedrockConverse integration"
-description: "Integrate with the ChatBedrockConverse chat model using LangChain JavaScript."
+title: ChatBedrockConverse integration
+description: Integrate with the ChatBedrockConverse chat model using LangChain JavaScript.
+integration:
+  name: ChatBedrockConverse
+  npm: '@langchain/aws'
+  featured: true
+  stream: true
+  tool_calling: true
+  structured_output: true
+  multimodal: true
 ---
 
 [Amazon Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) is a fully managed service that makes Foundation Models (FMs) from leading AI startups and Amazon available via an API. You can choose from a wide range of FMs to find the model that is best suited for your use case. It provides a unified conversational interface for Bedrock models.
@@ -150,7 +158,7 @@ For detailed documentation of all `ChatBedrockConverse` features and configurati
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/javascript/integrations/chat/bedrock_converse.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

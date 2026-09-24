@@ -13,10 +13,10 @@ Different errors need different handling strategies:
 |------------|--------------|----------|----------------------|
 | Transient errors (network issues, rate limits) | System (automatic) | Retry with exponential backoff | [ModelRetryMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/model_retry/ModelRetryMiddleware), [ToolRetryMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/tool_retry/ToolRetryMiddleware) |
 | LLM-recoverable errors (tool failures, parsing issues) | LLM | Convert to error `ToolMessage` and let the model adjust | [ToolErrorMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/tool_error/ToolErrorMiddleware) |
-| User-fixable errors (missing information, unclear instructions) | Human | Pause with `interrupt()` | [Human-in-the-loop](/oss/python/deepagents/human-in-the-loop) |
+ | User-fixable errors (missing information, unclear instructions) | Human | Pause with `interrupt()` | [Human-in-the-loop](/oss/python/deepagents/human-in-the-loop) |
 | Provider outage | System (automatic) | Fall back to an alternative model | [ModelFallbackMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/model_fallback/ModelFallbackMiddleware) |
 | Excessive calls (runaway loops) | System (automatic) | Cap model and tool calls per run | [ModelCallLimitMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/model_call_limit/ModelCallLimitMiddleware), [ToolCallLimitMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/tool_call_limit/ToolCallLimitMiddleware) |
-| Unexpected errors | Developer | Let them bubble up | No middleware — let the exception propagate |
+| Unexpected errors | Developer | Let them bubble up | No middleware; let the exception propagate |
 
 The sections below cover each strategy with code examples.
 
@@ -30,7 +30,7 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import ModelRetryMiddleware, ToolRetryMiddleware
 
 agent = create_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     tools=[search_tool, fetch_url_tool],
     middleware=[
         ModelRetryMiddleware(max_retries=3, backoff_factor=2.0, initial_delay=1.0),
@@ -52,9 +52,9 @@ agent = create_agent(
 
   Use [ToolErrorMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/tool_error/ToolErrorMiddleware) to catch tool exceptions and convert them into error `ToolMessage`s so the LLM can see what went wrong and try again:
 
-<Note>
-`ToolErrorMiddleware` requires `langchain>=1.3.14`.
-</Note>
+  <Note>
+  `ToolErrorMiddleware` requires `langchain>=1.3.14`.
+  </Note>
 
 ```python
 from langchain.agents import create_agent
@@ -68,16 +68,14 @@ def on_error(exc: Exception, request: ToolCallRequest) -> str | None:
 
 
 agent = create_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     tools=[search_tool],
     middleware=[ToolErrorMiddleware(on_error)],
 )
 ```
 
-
-
-
   </Tab>
+
 
   <Tab title="User-fixable" icon="user">
 
@@ -87,7 +85,7 @@ agent = create_agent(
 from deepagents import create_deep_agent
 
 agent = create_deep_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     tools=[send_email_tool, delete_record_tool],
     interrupt_on={
         "send_email": True,
@@ -112,7 +110,7 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import ModelFallbackMiddleware
 
 agent = create_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     tools=[search_tool],
     middleware=[
         ModelFallbackMiddleware("gpt-5.5"),
@@ -134,7 +132,7 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import ModelCallLimitMiddleware, ToolCallLimitMiddleware
 
 agent = create_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     tools=[search_tool],
     middleware=[
         ModelCallLimitMiddleware(run_limit=50),
@@ -185,7 +183,7 @@ rate_limiter = InMemoryRateLimiter(
 )
 
 model = init_chat_model(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     rate_limiter=rate_limiter,  # [!code highlight]
 )
 
@@ -205,7 +203,7 @@ from deepagents import create_deep_agent
 from langchain.agents.middleware import ModelCallLimitMiddleware, ToolCallLimitMiddleware
 
 agent = create_deep_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     middleware=[
         ModelCallLimitMiddleware(run_limit=50),
         ToolCallLimitMiddleware(run_limit=200),
@@ -227,7 +225,7 @@ from deepagents import create_deep_agent
 from langchain.agents.middleware import ModelRetryMiddleware, ToolRetryMiddleware
 
 agent = create_deep_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     middleware=[
         # Retry model calls on rate limits, timeouts, and 5xx errors
         ModelRetryMiddleware(max_retries=3, backoff_factor=2.0, initial_delay=1.0),
@@ -246,6 +244,11 @@ agent = create_deep_agent(
 
 Scope [ToolRetryMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/tool_retry/ToolRetryMiddleware) to specific tools rather than retrying everything. A filesystem `read_file` that fails will not benefit from a retry, but a web search that times out probably will. See [ModelRetryMiddleware](https://reference.langchain.com/python/langchain/agents/middleware/model_retry/ModelRetryMiddleware) for the full configuration.
 
+<Note>
+Major integration packages raise standard exception types ([ModelAuthenticationError](https://reference.langchain.com/python/langchain-core/exceptions/ModelAuthenticationError), [ModelRateLimitError](https://reference.langchain.com/python/langchain-core/exceptions/ModelRateLimitError), [ModelTimeoutError](https://reference.langchain.com/python/langchain-core/exceptions/ModelTimeoutError), and others) that carry an `is_retryable` flag the retry middleware respects by default. See [Model exceptions](/oss/python/langchain/models#model-exceptions) for the full list.
+</Note>
+
+
 ## Fallbacks
 
 If your primary model provider goes down entirely, the fallback middleware switches to an alternative model:
@@ -255,7 +258,7 @@ from deepagents import create_deep_agent
 from langchain.agents.middleware import ModelFallbackMiddleware
 
 agent = create_deep_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     middleware=[
         # If the primary model is fully down, fall back to an alternative
         ModelFallbackMiddleware("gpt-5.5"),
@@ -288,7 +291,7 @@ def on_error(exc: Exception, request: ToolCallRequest) -> str | None:
 
 
 agent = create_deep_agent(
-    model="google_genai:gemini-3.5-flash",
+    model="google_genai:gemini-3.6-flash",
     middleware=[ToolErrorMiddleware(on_error)],
 )
 ```
@@ -299,7 +302,7 @@ For the full configuration options and usage patterns, including async handlers 
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/deepagents/fault-tolerance.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

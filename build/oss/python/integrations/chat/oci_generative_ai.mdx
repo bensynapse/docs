@@ -1,6 +1,13 @@
 ---
-title: "OCI Generative AI Integration for LangChain"
-description: "Integrate with OCI Generative AI chat models using LangChain Python."
+title: OCI Generative AI Integration for LangChain
+description: Integrate with OCI Generative AI chat models using LangChain Python.
+integration:
+  name: ChatOCIGenerativeAI
+  pypi: langchain-oci
+  stream: true
+  tool_calling: true
+  structured_output: true
+  multimodal: true
 ---
 
 This doc will help you get started with Oracle Cloud Infrastructure (OCI) Generative AI [chat models](/oss/python/langchain/models). OCI Generative AI is a fully managed service providing state-of-the-art, customizable large language models covering a wide range of use cases through a single API. Access ready-to-use pretrained models or create and host fine-tuned custom models on dedicated AI clusters.
@@ -376,7 +383,7 @@ For detailed documentation of all `ChatOCIGenAI` features and configurations, he
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/python/integrations/chat/oci_generative_ai.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

@@ -36,6 +36,10 @@ When a schema type is provided directly, LangChain automatically chooses:
 - `ProviderStrategy` if the model and provider chosen supports native structured output (e.g. [OpenAI](/oss/python/integrations/providers/openai), [Anthropic (Claude)](/oss/python/integrations/providers/anthropic), or [xAI (Grok)](/oss/python/integrations/providers/xai)).
 - `ToolStrategy` for all other models.
 
+<Warning>
+JSON Schema dictionaries must be wrapped in an explicit strategy (`ProviderStrategy` or `ToolStrategy`). They are not automatically detected when passed directly to `response_format`.
+</Warning>
+
 <Note>
     Support for native structured output features is read dynamically from the model's [profile data](/oss/python/langchain/models#model-profiles) if using `langchain>=1.1`. If data are not available, use another condition or specify manually:
     ```python
@@ -120,7 +124,7 @@ LangChain automatically uses `ProviderStrategy` when you pass a schema type dire
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ContactInfo  # Auto-selects ProviderStrategy
     )
 
@@ -145,7 +149,7 @@ LangChain automatically uses `ProviderStrategy` when you pass a schema type dire
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ContactInfo  # Auto-selects ProviderStrategy
     )
 
@@ -159,6 +163,7 @@ LangChain automatically uses `ProviderStrategy` when you pass a schema type dire
 
     ```python JSON Schema
     from langchain.agents import create_agent
+    from langchain.agents.structured_output import ProviderStrategy
 
 
     contact_info_schema = {
@@ -175,7 +180,7 @@ LangChain automatically uses `ProviderStrategy` when you pass a schema type dire
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ProviderStrategy(contact_info_schema)
     )
 
@@ -260,7 +265,7 @@ class ToolStrategy(Generic[SchemaT]):
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ToolStrategy(ProductReview)
     )
 
@@ -287,7 +292,7 @@ class ToolStrategy(Generic[SchemaT]):
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ToolStrategy(ProductReview)
     )
 
@@ -313,7 +318,7 @@ class ToolStrategy(Generic[SchemaT]):
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ToolStrategy(ProductReview)
     )
 
@@ -356,7 +361,7 @@ class ToolStrategy(Generic[SchemaT]):
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ToolStrategy(product_review_schema)
     )
 
@@ -388,7 +393,7 @@ class ToolStrategy(Generic[SchemaT]):
 
     agent = create_agent(
         model="gpt-5.5",
-        tools=tools,
+        tools=[],
         response_format=ToolStrategy(Union[ProductReview, CustomerComplaint])
     )
 
@@ -709,7 +714,7 @@ response_format = ToolStrategy(
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/langchain/structured-output.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

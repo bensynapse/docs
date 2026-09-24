@@ -260,7 +260,7 @@ def confirm_order(order_summary: str) -> str:
 
 # Create agent with tools and memory
 agent = create_agent(
-    model="google_genai:gemini-3.5-flash",  # Select your model
+    model="google_genai:gemini-3.6-flash",  # Select your model
     tools=[add_to_order, confirm_order],
     system_prompt="""You are a helpful sandwich shop assistant.
     Your goal is to take the user's order. Be concise and friendly.
@@ -509,7 +509,7 @@ For more on building agents with LangChain, see the [Agents guide](/oss/python/l
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/langchain/voice-agent.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

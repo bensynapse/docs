@@ -1,13 +1,17 @@
 ---
-title: "PerplexitySearchRetriever integration"
-description: "Integrate with the PerplexitySearchRetriever retriever using LangChain JavaScript."
+title: PerplexitySearchRetriever integration
+description: Integrate with the PerplexitySearchRetriever retriever using LangChain
+  JavaScript.
+integration:
+  name: PerplexitySearchRetriever
+  npm: '@langchain/perplexity'
 ---
 
 The [Perplexity Search API](https://docs.perplexity.ai/docs/search/quickstart) returns real-time, grounded web search results that you can drop directly into a retrieval pipeline.
 
 ## Overview
 
-This will help you get started with `PerplexitySearchRetriever` [retrieval](/oss/javascript/langchain/retrieval). For detailed documentation of all `PerplexitySearchRetriever` features and configurations head to the [API reference](https://reference.langchain.com/javascript/langchain-perplexity/PerplexitySearchRetriever).
+This will help you get started with `PerplexitySearchRetriever` [retrieval](/oss/javascript/deepagents/retrieval). For detailed documentation of all `PerplexitySearchRetriever` features and configurations head to the [API reference](https://reference.langchain.com/javascript/langchain-perplexity/PerplexitySearchRetriever).
 
 ### Integration details
 
@@ -72,7 +76,7 @@ Each returned `Document` has the search result snippet as `pageContent` and `{ t
 
 ## Use within a chain
 
-Like other retrievers, `PerplexitySearchRetriever` can be incorporated into LLM applications via [chains](/oss/javascript/langchain/retrieval).
+Like other retrievers, `PerplexitySearchRetriever` can be incorporated into LLM applications via [chains](/oss/javascript/deepagents/retrieval).
 
 ```typescript
 import { ChatPromptTemplate } from "@langchain/core/prompts";
@@ -117,7 +121,7 @@ For detailed documentation of all `PerplexitySearchRetriever` features and confi
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/javascript/integrations/retrievers/perplexity_search.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

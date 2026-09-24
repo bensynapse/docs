@@ -1,6 +1,13 @@
 ---
-title: "ChatParallel integration"
-description: "Integrate with the ChatParallel chat model using LangChain Python."
+title: ChatParallel integration
+description: Integrate with the ChatParallel chat model using LangChain Python.
+integration:
+  name: ChatParallel
+  pypi: langchain-parallel
+  stream: true
+  tool_calling: false
+  structured_output: true
+  multimodal: false
 ---
 
 >[Parallel](https://platform.parallel.ai/) is a real-time web search and content extraction platform built for LLMs and AI applications.
@@ -263,7 +270,7 @@ For detailed documentation, head to the [`ChatParallel`](https://reference.langc
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/python/integrations/chat/parallel.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).

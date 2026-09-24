@@ -1,7 +1,21 @@
 ---
-title: "Elasticsearch integration"
-description: "Integrate with the Elasticsearch vector store using LangChain Python."
+title: Elasticsearch integration
+description: Integrate with the Elasticsearch vector store using LangChain Python.
+integration:
+  name: ElasticsearchStore
+  pypi: langchain-elasticsearch
+  featured: true
+  delete_by_id: true
+  filtering: true
+  search_by_vector: true
+  search_with_score: true
+  async_api: true
+  passes_standard_tests: false
+  multi_tenancy: false
+  ids_in_add_documents: true
 ---
+
+
 
 >[Elasticsearch](https://www.elastic.co/elasticsearch/) is a distributed, RESTful search and analytics engine, capable of performing both vector and lexical search. It is built on top of the Apache Lucene library.
 
@@ -634,7 +648,7 @@ print(results[0])
 
 For guides on how to use this vector store for retrieval-augmented generation (RAG), see the following sections:
 
-- [Retrieval docs](/oss/python/langchain/retrieval)
+- [Retrieval docs](/oss/python/deepagents/retrieval)
 - [Build a RAG app with LangChain](/oss/python/deepagents/rag)
 - [Agentic RAG](/oss/python/langgraph/agentic-rag)
 
@@ -720,7 +734,7 @@ For detailed documentation of all `ElasticSearchStore` features and configuratio
 
 <div className="source-links">
 <Callout icon="terminal-2">
-    [Connect these docs](/use-these-docs) to Claude, VSCode, and more via MCP for real-time answers.
+    [Connect these docs](/use-these-docs) to your agent of choice via MCP for real-time answers.
 </Callout>
 <Callout icon="edit">
     [Edit this page on GitHub](https://github.com/langchain-ai/docs/edit/main/src/oss/python/integrations/vectorstores/elasticsearch.mdx) or [file an issue](https://github.com/langchain-ai/docs/issues/new/choose).
